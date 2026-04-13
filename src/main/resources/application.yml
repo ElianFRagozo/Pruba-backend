@@ -1,0 +1,6 @@
+spring:
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb+srv://franchise_db:55XZ3VGGJPj0@cluster0.qcwlxgv.mongodb.net/?appName=Cluster0}
+server:
+  port: ${PORT:8080}

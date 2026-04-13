@@ -1,0 +1,7 @@
+target
+.idea
+.vscode
+*.iml
+infra/terraform/.terraform
+infra/terraform/*.tfstate
+infra/terraform/*.tfstate.backup

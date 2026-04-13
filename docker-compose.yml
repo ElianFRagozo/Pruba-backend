@@ -1,0 +1,26 @@
+services:
+  mongo:
+    image: mongo:7
+    container_name: franquicias-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: franquicias-api
+    depends_on:
+      - mongo
+    environment:
+      MONGODB_URI: mongodb+srv://franchise_db:55XZ3VGGJPj0@cluster0.qcwlxgv.mongodb.net/?appName=Cluster0
+      PORT: 8080
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+volumes:
+  mongo-data:

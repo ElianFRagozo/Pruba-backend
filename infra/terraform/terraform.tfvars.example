@@ -1,0 +1,10 @@
+aws_region           = "us-east-1"
+project_name         = "franquicias-api"
+container_image      = ""
+desired_count        = 1
+task_cpu             = 512
+task_memory          = 1024
+mongodb_uri          = "mongodb+srv://franchise_db:55XZ3VGGJPj0@cluster0.qcwlxgv.mongodb.net/?appName=Cluster0"
+provision_documentdb = false
+documentdb_username  = "franquiciasadmin"
+documentdb_password  = "ChangeMe123!"

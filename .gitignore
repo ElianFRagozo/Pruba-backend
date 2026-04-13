@@ -1,0 +1,29 @@
+# Maven / Java
+target/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Terraform
+**/.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# Secrets / local env (no subir credenciales)
+infra/terraform/terraform.tfvars
+.env
+.env.*
+
+# OS
+Thumbs.db
+Desktop.ini
