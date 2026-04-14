@@ -1,0 +1,548 @@
+{
+  "info": {
+    "_postman_id": "d2d6e982-59cb-4708-90c8-63b98cc35f43",
+    "name": "Franquicias API",
+    "description": "Coleccion para probar todos los endpoints de la API de franquicias (obligatorios, plus y casos negativos).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Flujo principal",
+      "item": [
+        {
+          "name": "01 - Crear franquicia",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "var body = pm.response.json();",
+                  "if (body.id) {",
+                  "    pm.collectionVariables.set('franchiseId', body.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Franquicia Demo\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/franchises",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "franchises"
+              ]
+            }
+          }
+        },
+        {
+          "name": "02 - Actualizar nombre franquicia",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Franquicia Demo Actualizada\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/franchises/{{franchiseId}}/name",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "franchises",
+                "{{franchiseId}}",
+                "name"
+              ]
+            }
+          }
+        },
+        {
+          "name": "03 - Agregar sucursal",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "var body = pm.response.json();",
+                  "if (body.branches && body.branches.length > 0) {",
+                  "    pm.collectionVariables.set('branchId', body.branches[body.branches.length - 1].id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Sucursal Norte\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/franchises/{{franchiseId}}/branches",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "franchises",
+                "{{franchiseId}}",
+                "branches"
+              ]
+            }
+          }
+        },
+        {
+          "name": "04 - Actualizar nombre sucursal",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Sucursal Norte Actualizada\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/franchises/{{franchiseId}}/branches/{{branchId}}/name",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "franchises",
+                "{{franchiseId}}",
+                "branches",
+                "{{branchId}}",
+                "name"
+              ]
+            }
+          }
+        },
+        {
+          "name": "05 - Agregar producto",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "var body = pm.response.json();",
+                  "if (body.branches && body.branches.length > 0) {",
+                  "    var b = body.branches.find(function(x){ return x.id === pm.collectionVariables.get('branchId'); }) || body.branches[0];",
+                  "    if (b && b.products && b.products.length > 0) {",
+                  "        pm.collectionVariables.set('productId', b.products[b.products.length - 1].id);",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Producto A\",\n  \"stock\": 50\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/franchises/{{franchiseId}}/branches/{{branchId}}/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "franchises",
+                "{{franchiseId}}",
+                "branches",
+                "{{branchId}}",
+                "products"
+              ]
+            }
+          }
+        },
+        {
+          "name": "06 - Actualizar nombre producto",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Producto A Premium\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/franchises/{{franchiseId}}/branches/{{branchId}}/products/{{productId}}/name",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "franchises",
+                "{{franchiseId}}",
+                "branches",
+                "{{branchId}}",
+                "products",
+                "{{productId}}",
+                "name"
+              ]
+            }
+          }
+        },
+        {
+          "name": "07 - Actualizar stock producto",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"stock\": 120\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/franchises/{{franchiseId}}/branches/{{branchId}}/products/{{productId}}/stock",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "franchises",
+                "{{franchiseId}}",
+                "branches",
+                "{{branchId}}",
+                "products",
+                "{{productId}}",
+                "stock"
+              ]
+            }
+          }
+        },
+        {
+          "name": "08 - Top productos por sucursal",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Respuesta es un array', function () {",
+                  "    pm.expect(pm.response.json()).to.be.an('array');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/franchises/{{franchiseId}}/top-stock-products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "franchises",
+                "{{franchiseId}}",
+                "top-stock-products"
+              ]
+            }
+          }
+        },
+        {
+          "name": "09 - Eliminar producto",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/franchises/{{franchiseId}}/branches/{{branchId}}/products/{{productId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "franchises",
+                "{{franchiseId}}",
+                "branches",
+                "{{branchId}}",
+                "products",
+                "{{productId}}"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Casos negativos",
+      "item": [
+        {
+          "name": "N1 - Crear franquicia sin nombre (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 400', function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/franchises",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "franchises"
+              ]
+            }
+          }
+        },
+        {
+          "name": "N2 - Stock negativo (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 400', function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"stock\": -1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/franchises/{{franchiseId}}/branches/{{branchId}}/products/{{productId}}/stock",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "franchises",
+                "{{franchiseId}}",
+                "branches",
+                "{{branchId}}",
+                "products",
+                "{{productId}}",
+                "stock"
+              ]
+            }
+          }
+        },
+        {
+          "name": "N3 - Franquicia no encontrada (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 404', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/franchises/{{missingFranchiseId}}/top-stock-products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "franchises",
+                "{{missingFranchiseId}}",
+                "top-stock-products"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://franquicias-api-alb-657663847.us-east-1.elb.amazonaws.com",
+      "type": "string"
+    },
+    {
+      "key": "franchiseId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "branchId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "productId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "missingFranchiseId",
+      "value": "franchise-not-found",
+      "type": "string"
+    }
+  ]
+}

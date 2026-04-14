@@ -46,6 +46,9 @@ adapter --> mongo[(MongoDB)]
 
 Base URL: `http://localhost:8080/api/franchises`
 
+Base URL AWS (despliegue publico):
+`http://franquicias-api-alb-657663847.us-east-1.elb.amazonaws.com/api/franchises`
+
 ### Obligatorios
 
 1. Crear franquicia
@@ -154,7 +157,17 @@ Top productos por sucursal:
 curl http://localhost:8080/api/franchises/{franchiseId}/top-stock-products
 ```
 
-## 8) IaC con Terraform (AWS)
+## 8) Coleccion de Postman
+
+Se incluye una coleccion lista para importar y probar todos los endpoints (flujo principal + casos negativos):
+
+- `postman/Franquicias-API.postman_collection.json`
+
+Sugerencia:
+- Configura `baseUrl` como `http://localhost:8080` para pruebas locales.
+- Configura `baseUrl` como `http://franquicias-api-alb-657663847.us-east-1.elb.amazonaws.com` para probar en AWS.
+
+## 9) IaC con Terraform (AWS)
 
 Ruta: `infra/terraform`
 
@@ -194,7 +207,7 @@ terraform apply
 terraform output alb_dns_name
 ```
 
-## 9) Criterios de evaluacion cubiertos
+## 10) Criterios de evaluacion cubiertos
 
 - Spring Boot: si.
 - Programacion reactiva: si (WebFlux + repositorio reactivo).
@@ -204,8 +217,3 @@ terraform output alb_dns_name
 - IaC: si (Terraform AWS).
 - Clean Architecture: si.
 - Buenas practicas: capas separadas, DTOs, mapeadores, validacion y manejo centralizado de errores.
-
-
-
-
-55XZ3VGGJPj0
